@@ -4,6 +4,7 @@
 #include <iostream>
 #include <queue>
 #include <map>
+#include <stack>
 using namespace std;
 
 Edge::Edge(string vertex1, string vertex2, double length) 
@@ -222,4 +223,71 @@ void Graph::BFStraversal()
 			}
 		}
 	}
+}
+void Graph::DFStraversal() {
+
+    unordered_map<string,bool> visited;
+    stack<string> edgeStack;
+    
+    
+
+    adjacencyList.insert(make_pair("a", list<Edge>()));
+
+    adjacencyList.insert(make_pair("b", list<Edge>()));
+
+    adjacencyList.insert(make_pair("c", list<Edge>()));
+
+    adjacencyList.insert(make_pair("d", list<Edge>()));
+
+    adjacencyList.insert(make_pair("e", list<Edge>()));
+
+    adjacencyList["a"].push_back(Edge("a", "b", 10));
+    adjacencyList["a"].push_back(Edge("a", "e", 20));
+
+    adjacencyList["b"].push_back(Edge("a", "b", 10));
+    adjacencyList["b"].push_back(Edge("c", "b", 5));
+
+    adjacencyList["c"].push_back(Edge("c", "b", 5));
+    adjacencyList["c"].push_back(Edge("c", "e", 15));
+    adjacencyList["c"].push_back(Edge("c", "d", 8));
+
+    adjacencyList["d"].push_back(Edge("c", "d", 8));
+    adjacencyList["d"].push_back(Edge("d", "e", 6));
+
+    adjacencyList["e"].push_back(Edge("c", "e", 15));
+    adjacencyList["e"].push_back(Edge("d", "e", 6));
+    adjacencyList["e"].push_back(Edge("a", "e", 20));
+
+
+    string current = adjacencyList.begin()->first;
+    edgeStack.push(current);
+
+    while (!edgeStack.empty())
+    {
+        current = edgeStack.top();
+        edgeStack.pop();
+
+
+        if (!visited[current])
+        {
+            cout << current << " ";
+            visited[current] = true;
+        }
+        
+        for (auto it = adjacencyList[current].begin(); it != adjacencyList[current].end(); it++)
+        {
+            if (!visited[it->getVertex1()])
+            {
+                edgeStack.push(it->getVertex1());
+                
+            }
+            if (!visited[it->getVertex2()])
+            {
+                edgeStack.push(it->getVertex2());
+                
+            }
+        }
+    }
+
+
 }
