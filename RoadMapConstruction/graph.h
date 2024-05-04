@@ -29,8 +29,8 @@ public:
 	void insertEdge(string, string, double);
 	void deleteVertex(string);
 	void deleteEdge(string, string);
-	void DFStraversal();
-	void BFStraversal();
+	void DFStraversal(string);
+	void BFStraversal(string);
 	void PrimMinimumSpanningTree();
 };
 

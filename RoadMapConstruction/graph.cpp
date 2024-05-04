@@ -1,9 +1,9 @@
-
 #include "graph.h"
 #include <vector>
 #include <iostream>
 #include <queue>
 #include <map>
+#include <stack>
 using namespace std;
 
 Edge::Edge(string vertex1, string vertex2, double length) 
@@ -161,7 +161,7 @@ void Graph::PrimMinimumSpanningTree()
 		edgesOrder.pop();
 	}
 }
-void Graph::BFStraversal()
+void Graph::BFStraversal(string first_node)
 {
 	adjacencyList.insert(make_pair("a", list<Edge>()));
 
@@ -198,10 +198,10 @@ void Graph::BFStraversal()
 	adjacencyList["f"].push_back(Edge("e", "f", 3));
 
 	queue<string> nodes;
-	nodes.push(adjacencyList.begin()->first);
+	nodes.push(first_node);
 
 	unordered_map<string, bool> visited;
-	visited[adjacencyList.begin()->first] = true;
+	visited[first_node] = true;
 
 	while (!nodes.empty())
 	{
@@ -222,4 +222,71 @@ void Graph::BFStraversal()
 			}
 		}
 	}
+}
+void Graph::DFStraversal(string first_node) {
+
+    unordered_map<string,bool> visited;
+    stack<string> edgeStack;
+    
+    
+
+    adjacencyList.insert(make_pair("a", list<Edge>()));
+
+    adjacencyList.insert(make_pair("b", list<Edge>()));
+
+    adjacencyList.insert(make_pair("c", list<Edge>()));
+
+    adjacencyList.insert(make_pair("d", list<Edge>()));
+
+    adjacencyList.insert(make_pair("e", list<Edge>()));
+
+    adjacencyList["a"].push_back(Edge("a", "b", 10));
+    adjacencyList["a"].push_back(Edge("a", "e", 20));
+
+    adjacencyList["b"].push_back(Edge("a", "b", 10));
+    adjacencyList["b"].push_back(Edge("c", "b", 5));
+
+    adjacencyList["c"].push_back(Edge("c", "b", 5));
+    adjacencyList["c"].push_back(Edge("c", "e", 15));
+    adjacencyList["c"].push_back(Edge("c", "d", 8));
+
+    adjacencyList["d"].push_back(Edge("c", "d", 8));
+    adjacencyList["d"].push_back(Edge("d", "e", 6));
+
+    adjacencyList["e"].push_back(Edge("c", "e", 15));
+    adjacencyList["e"].push_back(Edge("d", "e", 6));
+    adjacencyList["e"].push_back(Edge("a", "e", 20));
+
+
+    string current = first_node;
+    edgeStack.push(current);
+
+    while (!edgeStack.empty())
+    {
+        current = edgeStack.top();
+        edgeStack.pop();
+
+
+        if (!visited[current])
+        {
+            cout << current << " ";
+            visited[current] = true;
+        }
+        
+        for (auto it = adjacencyList[current].begin(); it != adjacencyList[current].end(); it++)
+        {
+            if (!visited[it->getVertex1()])
+            {
+                edgeStack.push(it->getVertex1());
+                
+            }
+            if (!visited[it->getVertex2()])
+            {
+                edgeStack.push(it->getVertex2());
+                
+            }
+        }
+    }
+
+
 }
